@@ -77,13 +77,13 @@ int main(void) {
 					system("pause");
 					break;
 				case '3':
+                                        if(flagD==1){
+						printf("Ya se realizo el calculo de las operaciones \n");
+					}
 					flagC=flagA+flagB;
 					if(flagC!=2){
 						printf("Ingrese dos operandos para realizar la operacion. \n");
-					}
-					if(flagD==1){
-						printf("Ya se realizo el calculo de las operaciones \n");
-					}
+					}					
 					else
 					{
 						sumar(x,y,&suma);
