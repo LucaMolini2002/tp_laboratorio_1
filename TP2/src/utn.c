@@ -222,9 +222,7 @@ static int getFloat(float* pResultado)
 {
 	int retorno=-1;
 	char bufferString[50];
-	if(pResultado!=NULL&&
-	   getString(bufferString,sizeof(bufferString))==0&&
-	   esNumerica(bufferString,sizeof(bufferString)))
+	if(pResultado!=NULL && !getString(bufferString,sizeof(bufferString)))
 	{
 		retorno=0;
 		*pResultado=atof(bufferString);

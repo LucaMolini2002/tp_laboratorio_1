@@ -29,6 +29,7 @@ int emp_removeEmployee(Employee* list, int len, int id);
 int emp_sortEmployee(Employee* list, int len);
 int emp_print(Employee* pElement);
 int emp_printEmployees(Employee* list, int len);
-int emp_calculateAverageSalary(Employee* list, int len, float* average, int* aboveAverage);
+int emp_calculateAverageSalary(Employee* list, int len, int index);
+int emp_salaryExceeded(Employee* list, int index, int* employeesAverage, float salaryAverage);
 
 #endif /* EMPLOYEE_H_ */

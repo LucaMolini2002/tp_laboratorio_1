@@ -17,6 +17,7 @@
 #define QTY_EMPLOYEES 1000
 
 int main(void) {
+
 	setbuf(stdout,NULL);
 
 	Employee employees[QTY_EMPLOYEES];
@@ -27,9 +28,7 @@ int main(void) {
 	int auxIndexEmployees;
 	int auxIdEmployees;
 	int flag=0;
-	float averageSalary;
-	int aboveAverageSalary;
-
+	int auxEmptyIndex;
 
 	if(emp_initEmployees(employees, QTY_EMPLOYEES)==0)
 	{
@@ -92,11 +91,12 @@ int main(void) {
 					switch(opcionInforme)
 					{
 					case 1:
-						emp_calculateAverageSalary(employees, QTY_EMPLOYEES, &averageSalary, &aboveAverageSalary);
-						printf("El promedio de salarios es: %2.f y la cantidad de empleados que superan el promedio es: %d",averageSalary,aboveAverageSalary);
+						emp_sortEmployee(employees, QTY_EMPLOYEES);
+						emp_printEmployees(employees, QTY_EMPLOYEES);
 						break;
 					case 2:
-						emp_sortEmployee(employees, QTY_EMPLOYEES);
+						auxEmptyIndex = emp_getEmptyIndex(employees, QTY_EMPLOYEES);
+						emp_calculateAverageSalary(employees, QTY_EMPLOYEES, auxEmptyIndex);
 						break;
 					}
 				}

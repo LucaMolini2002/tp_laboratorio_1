@@ -84,7 +84,7 @@ int emp_modifyEmployees(Employee* list,int len, int index)
 	{
 		if(utn_getNombre(bufferEmployees.name, NAME_LEN, "\nNombre:\n", "\nError\n", 2)==0 &&
 		   utn_getNombre(bufferEmployees.lastName, LASTNAME_LEN,"\nApellido:\n", "\nError\n", 2)==0 &&
-		   utn_getNumeroFloat(&bufferEmployees.salary,"\nSalario:\n", "\nError\n",0.0,500000.0, 2)==0 &&
+		   utn_getNumeroFloat(&bufferEmployees.salary,"\nSalario:\n", "\nError, ingrese salario como decimal.\n",0.0,999999.0, 2)==0 &&
 		   utn_getNumero(&bufferEmployees.sector, "\nSector:\n", "\nError\n", 1, 100, 2)==0)
 		{
 			retorno=0;
@@ -233,7 +233,7 @@ int emp_printEmployees(Employee* list, int len)
 	}
 	return retorno;
 }
-/** \brief print the content of employees array
+/** \brief Calculate average salary
  *
  * \param list Employee*
  * \param length int
@@ -241,35 +241,50 @@ int emp_printEmployees(Employee* list, int len)
  * \param aboveAverage* int
  * \return int  Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
  */
-int emp_calculateAverageSalary(Employee* list, int len, float* average, int* aboveAverage)
+int emp_calculateAverageSalary(Employee* list, int len, int index)
 {
-	int i;
-	int retorno=-1;
-	int accumulatorSalary=0;
-	int accountantEmployees=0;
-	int auxAverage;
-	int accountantAboveAverage=0;
-	if(list != NULL && len > 0 )
+	int ret=-1;
+	float AverageSalary=0;
+	float auxAverageSalary=0;
+	int employeesRate=0;
+	if(list!=NULL && len>0 && index>0)
 	{
-		retorno=0;
-		for(i=0;i<len;i++)
+		for(int i=0; i<=index-1;i++)
 		{
-			if(list[i]!=NULL)
-			{
-				accountantEmployees++;
-				accumulatorSalary = accumulatorSalary + list[i]->salary;
-			}
+			auxAverageSalary+=list[i].salary;
 		}
-		auxAverage = accumulatorSalary / accountantEmployees;
-		*average = auxAverage;
-		for(i=0;i<len;i++)
+		AverageSalary= auxAverageSalary/(index);
+		if(emp_salaryExceeded(list, index, &employeesRate, AverageSalary)==0)
 		{
-			if(list[i]!=NULL && list[i].salary>auxAverage)
-			{
-				accountantAboveAverage++;
-			}
+			printf("\n\nEl promedio de salario es: %.2f. El numero de empleados que superan el promedio es: %d \n\n",AverageSalary,employeesRate);
+			ret=0;
 		}
-		*aboveAverage = accountantAboveAverage;
 	}
-	return retorno;
+	return ret;
+}
+/** \brief Calculate above-average employees
+ * \param list Employee*
+ * \param index int
+ * \param salaryAverage float
+ * \param employeesAverage int*
+ * \return int Return (-1) if Error - (0) if Ok
+ */
+int emp_salaryExceeded(Employee* list, int index, int* employeesAverage, float salaryAverage)
+{
+	int ret=-1;
+	int auxEmployeesAverage=0;
+	if(list!=NULL && index>0 && salaryAverage >= 0)
+	{
+		for(int i=0; i<index; i++)
+		{
+			if(list[i].salary > salaryAverage)
+			{
+				auxEmployeesAverage++;
+				ret=0;
+			}
+		}
+		ret=0;
+		*employeesAverage=auxEmployeesAverage;
+	}
+	return ret;
 }
